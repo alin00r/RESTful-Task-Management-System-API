@@ -10,8 +10,8 @@ export class TaskService {
     taskData: {
       title: string;
       description: string;
-      status?: string;
-      priority?: string;
+      status?: 'pending' | 'in-progress' | 'done';
+      priority?: 'low' | 'medium' | 'high' | 'urgent';
       dueDate?: Date;
       assignedTo?: string;
     }

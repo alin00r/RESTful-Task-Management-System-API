@@ -6,7 +6,7 @@ export class ProjectService {
     title: string,
     description: string,
     ownerId: string,
-    status?: string,
+    status?: 'active' | 'on-hold' | 'completed' | 'archived',
     members?: string[]
   ): Promise<IProject> {
     const project = await Project.create({
