@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: task-management-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: task-management
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - task-management-network
+
+  api:
+    build: .
+    container_name: task-management-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017/task-management
+      JWT_ACCESS_SECRET: your_jwt_access_secret_change_this_in_production
+      JWT_REFRESH_SECRET: your_jwt_refresh_secret_change_this_in_production
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      BCRYPT_SALT_ROUNDS: 12
+      RATE_LIMIT_WINDOW_MS: 900000
+      RATE_LIMIT_MAX_REQUESTS: 100
+      CORS_ORIGIN: http://localhost:3000
+      LOG_LEVEL: info
+    depends_on:
+      - mongodb
+    networks:
+      - task-management-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  task-management-network:
+    driver: bridge
