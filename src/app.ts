@@ -58,10 +58,7 @@ app.get("/health", (_req, res) => {
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, {
-    customCssUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css",
-  }),
+  swaggerUi.setup(swaggerSpec),
 );
 
 // Routes
